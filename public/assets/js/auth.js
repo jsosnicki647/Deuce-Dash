@@ -19,12 +19,14 @@ $(document).ready(() => {
         const username = $("#input-username").val().trim()
 
         auth.createUserWithEmailAndPassword(email, password)
+            .catch(e => console.log(e.code))
             .then(cred => {
+                console.log(cred.user.uid)
                 const user = auth.currentUser
                 user.updateProfile({
                     displayName: username
                 })
-                console.log(cred)
+                logIn()
             })
     })
 
@@ -34,9 +36,16 @@ $(document).ready(() => {
         let password = $("#input-password").val().trim()
 
         auth.signInWithEmailAndPassword(email, password)
-            .then(cred => console.log(cred))
+            .catch(e => console.log(e.code))
+            .then(cred => {
+                console.log(cred)
+                logIn()
+            })
     })
 
-    
+    const logIn = () => {
+        console.log("FUCK")
+        $.get("/map", () => window.location.href = window.location.origin + "/map")
+    }
 
 })
